@@ -1,5 +1,5 @@
 import twitter4j.auth.AccessToken
-import twitter4j.{Status, ResponseList, TwitterFactory, Twitter}
+import twitter4j._
 
 object Main extends App {
   val twitter: Twitter = new TwitterFactory().getInstance()
@@ -8,11 +8,17 @@ object Main extends App {
   twitter.setOAuthAccessToken(new AccessToken(sys.env("ACCESS_TOKEN"),
     sys.env("ACCESS_TOKEN_SECRET")))
   private val timeline: ResponseList[Status] = twitter.getHomeTimeline()
-  twitter.updateStatus("#tweetingfromscala")
-
+  twitter.updateStatus("#NotABot")
 
   Console.println("Hello World: " + timeline.toString)
 
+  val twitterStreamFactory = new TwitterStreamFactory
+  val twitterStream = twitterStreamFactory.getInstance()
+  twitterStream.setOAuthConsumer(sys.env("CONSUMER_KEY"),
+    sys.env("CONSUMER_SECRET"))
+  twitterStream.setOAuthAccessToken(new AccessToken(sys.env("ACCESS_TOKEN"),
+    sys.env("ACCESS_TOKEN_SECRET")))
+  twitterStream.sample("en")
 
 
   //TO DO:
@@ -24,3 +30,4 @@ object Main extends App {
   //try to specify type of tweet to send out??
   //create a collection of tweets to select from and tweet to user
 }
+
