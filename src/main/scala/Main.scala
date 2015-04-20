@@ -29,7 +29,13 @@ object Main extends App {
     def onStallWarning(warning: StallWarning) {}
   }
 
+  // gather an array of all followers' IDs of ScalaBot
   Console.println(twitter.getFollowersIDs(3153362684L, -1).toString())
+
+  // gather an array of all followers general info 
+  //twitter.getFollowersList(3153362684L, -1).toString()
+
+  // how to follow a person back
 
 //  stream.addListener(listener)
 //  stream.user()
