@@ -29,7 +29,7 @@ object Main extends App {
     def onStallWarning(warning: StallWarning) {}
   }
 
-  Console.println(twitter.getFriendsIDs(3153362684L).toString())
+  Console.println(twitter.getFollowersIDs(3153362684L, -1).toString())
 
 //  stream.addListener(listener)
 //  stream.user()
