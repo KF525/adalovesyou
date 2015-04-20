@@ -15,11 +15,10 @@ object Main extends App {
   val twitter = new TwitterFactory(config).getInstance
   val stream = new TwitterStreamFactory(config).getInstance()
 
-  private val timeline: ResponseList[Status] = twitter.getHomeTimeline
-  private val myMentions = twitter.getMentionsTimeline
-  twitter.updateStatus("Ada loves you!")
-
-  Console.println("Hello World: " + timeline.toString + myMentions.toString )
+//  private val timeline: ResponseList[Status] = twitter.getHomeTimeline
+//  private val myMentions = twitter.getMentionsTimeline
+//  twitter.updateStatus("Ada loves you!")
+//  Console.println("Hello World: " + timeline.toString + myMentions.toString )
 
   val listener = new StatusListener() {
     def onStatus(status: Status) {println(status.getText)}
@@ -30,11 +29,15 @@ object Main extends App {
     def onStallWarning(warning: StallWarning) {}
   }
 
-  stream.addListener(listener)
-  stream.user()
-  Thread.sleep(6000)
-  stream.cleanUp
-  stream.shutdown
+  Console.println(twitter.getFriendsIDs(3153362684L).toString())
+
+//  stream.addListener(listener)
+//  stream.user()
+//  Thread.sleep(6000)
+//  stream.cleanUp
+//  stream.shutdown
+
+
 }
 
 
@@ -46,6 +49,7 @@ object Main extends App {
   //TO DO:
   //create a twitter account
   //get credentials and add to .env file
+  //get our list of followers
   //listen to twitter (all of twitter or just account's followers/or people who follow account?)
   //listen for specific phrases or hashtag (what should this/these be)
   //respond to users who use those specific phrases/hashtag
