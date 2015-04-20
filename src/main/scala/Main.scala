@@ -4,19 +4,24 @@ import twitter4j._
 import twitter4j.conf.ConfigurationBuilder
 
 object Main extends App {
+  val config = (new ConfigurationBuilder)
+    .setDebugEnabled(true)
+    .setOAuthConsumerKey(sys.env("CONSUMER_KEY"))
+    .setOAuthConsumerSecret(sys.env("CONSUMER_SECRET"))
+    .setOAuthAccessToken(sys.env("ACCESS_TOKEN"))
+    .setOAuthAccessTokenSecret(sys.env("ACCESS_TOKEN_SECRET"))
+    .build()
 
-  val twitter: Twitter = new TwitterFactory().getInstance()
-  twitter.setOAuthConsumer(sys.env("CONSUMER_KEY"),
-    sys.env("CONSUMER_SECRET"))
-  twitter.setOAuthAccessToken(new AccessToken(sys.env("ACCESS_TOKEN"),
-    sys.env("ACCESS_TOKEN_SECRET")))
-  val status: ResponseList[Status] = twitter.getMentionsTimeline();
-  //private val timeline: ResponseList[Status] = twitter.getHomeTimeline()
-  //twitter.updateStatus("#NotABot")
+  val twitter = new TwitterFactory(config).getInstance
+  val stream = new TwitterStreamFactory(config).getInstance()
 
-  Console.println("Hello World: " + status.toString)
+  private val timeline: ResponseList[Status] = twitter.getHomeTimeline
+  private val myMentions = twitter.getMentionsTimeline
+  twitter.updateStatus("Ada loves you!")
 
-  def listener = new StatusListener() {
+  Console.println("Hello World: " + timeline.toString + myMentions.toString )
+
+  val listener = new StatusListener() {
     def onStatus(status: Status) {println(status.getText)}
     def onDeletionNotice(statusDeletionNotice: StatusDeletionNotice) {}
     def onTrackLimitationNotice(numberOfLimitedStatuses: Int) {}
@@ -25,20 +30,15 @@ object Main extends App {
     def onStallWarning(warning: StallWarning) {}
   }
 
-  val twitterStream = new TwitterStreamFactory().getInstance()
-  twitterStream.setOAuthConsumer(sys.env("CONSUMER_KEY"),
-    sys.env("CONSUMER_SECRET"))
-  twitterStream.setOAuthAccessToken(new AccessToken(sys.env("ACCESS_TOKEN"),
-    sys.env("ACCESS_TOKEN_SECRET")))
-  twitterStream.addListener(listener)
-  twitterStream.user()
+  stream.addListener(listener)
+  stream.user()
   Thread.sleep(6000)
-  twitterStream.cleanUp
-  twitterStream.shutdown
+  stream.cleanUp
+  stream.shutdown
 }
 
 
-
+//val status: ResponseList[Status] = twitter.getMentionsTimeline
 
 
 
