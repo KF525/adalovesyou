@@ -30,12 +30,29 @@ object Main extends App {
   }
 
   // gather an array of all followers' IDs of ScalaBot
-  Console.println(twitter.getFollowersIDs(3153362684L, -1).toString())
+  //Console.println(twitter.getFollowersIDs(3153362684L, -1).toString())
 
   // gather an array of all followers general info 
-  //twitter.getFollowersList(3153362684L, -1).toString()
+  //Console.println(twitter.getFollowersList(3153362684L, -1).toString())
 
-  // how to follow a person back
+
+
+  //go through friends and push things into toFollow/toUnfollow sequences appropriately
+  //sequences that are empty are not broken
+
+  val getFollowers: IDs = twitter.getFollowersIDs(3153362684L, -1)
+  val getFriends: IDs = twitter.getFriendsIDs(3153362684L, -1)
+  val uniqueIds: Set[Long] = getFollowers.getIDs.toSet.union(getFriends.getIDs.toSet)
+
+
+//  Console.println(twitter.getFollowersIDs(3153362684L, -1).toString())
+//  Console.println(twitter.getFriendsIDs(3153362684L, -1).toString())
+
+  val toFollow: Set[Long] = uniqueIds
+  toFollow.foreach { friend => twitter.createFriendship(friend) }
+
+  val toUnfollow: Set[Long] = Set()
+  toUnfollow.foreach { friend => twitter.destroyFriendship(friend) }
 
 //  stream.addListener(listener)
 //  stream.user()
