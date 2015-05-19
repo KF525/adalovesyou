@@ -1,17 +1,18 @@
 import twitter4j._
 import twitter4j.conf.ConfigurationBuilder
-import com.typesafe.config.Config
+import com.typesafe.config.{ConfigFactory, Config}
 
 
 object Main extends App {
 
-  // val twitterConfig = new TwitterFactory(ConfigFactory.load)
+  val twitterConfig = new TwitterConfig(ConfigFactory.load)
+
   val config = (new ConfigurationBuilder)
     .setDebugEnabled(true)
-    .setOAuthConsumerKey(sys.env("CONSUMER_KEY"))
-    .setOAuthConsumerSecret(sys.env("CONSUMER_SECRET"))
-    .setOAuthAccessToken(sys.env("ACCESS_TOKEN"))
-    .setOAuthAccessTokenSecret(sys.env("ACCESS_TOKEN_SECRET"))
+    .setOAuthConsumerKey(twitterConfig.consumerKey)
+    .setOAuthConsumerSecret(twitterConfig.consumerSecret)
+    .setOAuthAccessToken(twitterConfig.accessToken)
+    .setOAuthAccessTokenSecret(twitterConfig.accessTokenSecret)
     .build()
 
   val twitter = new TwitterFactory(config).getInstance
@@ -26,7 +27,7 @@ object Main extends App {
     def onStallWarning(warning: StallWarning) {}
   }
 
-
+  println(twitterConfig.consumerKey)
 
 
 //  class NotificationListener(
@@ -78,10 +79,9 @@ object Main extends App {
 
   stream.addListener(statusListener)
   stream.user()
-
-//  Thread.sleep(6000)
-//  stream.cleanUp()
-//  stream.shutdown()
+  Thread.sleep(6000)
+  stream.cleanUp()
+  stream.shutdown()
 
   //  private val timeline: ResponseList[Status] = twitter.getHomeTimeline
   //  private val myMentions = twitter.getMentionsTimeline
