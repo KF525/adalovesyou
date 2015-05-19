@@ -13,7 +13,7 @@ object Main extends App {
   val twitter = new TwitterFactory(config).getInstance
   val stream = new TwitterStreamFactory(config).getInstance
 
-  val listener = new StatusListener() {
+  val statusListener = new StatusListener() {
     def onStatus(status: Status) {println(status.getText)}
     def onDeletionNotice(statusDeletionNotice: StatusDeletionNotice) {}
     def onTrackLimitationNotice(numberOfLimitedStatuses: Int) {}
@@ -21,15 +21,43 @@ object Main extends App {
     def onScrubGeo(arg0: Long, arg1: Long) {}
     def onStallWarning(warning: StallWarning) {}
   }
-  
-  // gather an array of all followers' IDs of ScalaBot
-  //Console.println(twitter.getFollowersIDs(3153362684L, -1).toString())
 
-  // gather an array of all followers general info 
-  //Console.println(twitter.getFollowersList(3153362684L, -1).toString())
 
-  //go through friends and push things into toFollow/toUnfollow sequences appropriately
-  //sequences that are empty are not broken
+
+
+  class NotificationListener(
+                              userId: Long,
+                              screenName: String,
+                              responder: Responder,
+                              twitter: Twitter) extends UserStreamListener {
+
+    override def onFollow(source: User, followedUser: User): Unit = {
+
+    }
+
+    override def onBlock(source: User, blockedUser: User) = ()
+    override def onDeletionNotice(directMessageId: Long, userId: Long) = ()
+    override def onDeletionNotice(statusDeletionNotice: StatusDeletionNotice) = ()
+    override def onDirectMessage(directMessage: DirectMessage) = ()
+    override def onException(ex: Exception) = ()
+    override def onFavorite(source: User, target: User, favoritedStatus: Status) = ()
+    override def onFriendList(friendIds: Array[Long]) = ()
+    override def onScrubGeo(userId: Long, upToStatusId: Long) = ()
+    override def onStallWarning(warning: StallWarning) = ()
+    override def onTrackLimitationNotice(numberOfLimitedStatuses: Int) = ()
+    override def onUnblock(source: User, unblockedUser: User) = ()
+    override def onUnfavorite(source: User, target: User, unfavoritedStatus: Status) = ()
+    override def onUserListCreation(listOwner: User, list: UserList) = ()
+    override def onUserListDeletion(listOwner: User, list: UserList) = ()
+    override def onUserListMemberAddition(addedMember: User, listOwner: User, list: UserList) = ()
+    override def onUserListMemberDeletion(deletedMember: User, listOwner: User, list: UserList) = ()
+    override def onUserListSubscription(subscriber: User, listOwner: User, list: UserList) = ()
+    override def onUserListUnsubscription(subscriber: User, listOwner: User, list: UserList) = ()
+    override def onUserListUpdate(listOwner: User, list: UserList) = ()
+    override def onUserProfileUpdate(updatedUser: User) = ()
+  }
+
+  val notificationListener = new NotifcationListener(3153362684L, "Ada", null, twitter)
 
 
   val getFollowers: IDs = twitter.getFollowersIDs(3153362684L, -1)
@@ -42,6 +70,12 @@ object Main extends App {
 
   val toUnfollow: Set[Long] = toUnFollowIDs
   toUnfollow.foreach { friend => twitter.destroyFriendship(friend) }
+
+
+}
+
+
+
 
 //  stream.addListener(listener)
 //  stream.user()
