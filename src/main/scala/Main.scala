@@ -21,6 +21,16 @@ object Main extends App {
     def onScrubGeo(arg0: Long, arg1: Long) {}
     def onStallWarning(warning: StallWarning) {}
   }
+  
+  // gather an array of all followers' IDs of ScalaBot
+  //Console.println(twitter.getFollowersIDs(3153362684L, -1).toString())
+
+  // gather an array of all followers general info 
+  //Console.println(twitter.getFollowersList(3153362684L, -1).toString())
+
+  //go through friends and push things into toFollow/toUnfollow sequences appropriately
+  //sequences that are empty are not broken
+
 
   val getFollowers: IDs = twitter.getFollowersIDs(3153362684L, -1)
   val getFriends: IDs = twitter.getFriendsIDs(3153362684L, -1)
