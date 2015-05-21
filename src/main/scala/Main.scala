@@ -28,95 +28,36 @@ object Main extends App {
   }
 
   val userStreamListener = new UserStreamListener {
-
+    def helloWorld() = {
+      println("HIIIIIIIIIIIIiiiiiiiiiii")
+    }
+    println("Class is working")
     override def onFriendList(friendIds: Array[Long]): Unit = ()
-
     override def onUserListUnsubscription(subscriber: User, listOwner: User, list: UserList): Unit = ()
-
     override def onBlock(source: User, blockedUser: User): Unit = ()
-
     override def onUserListSubscription(subscriber: User, listOwner: User, list: UserList): Unit = ()
-
     override def onFollow(source: User, followedUser: User): Unit = (println("I'm following a person"))
-
     override def onUserListMemberAddition(addedMember: User, listOwner: User, list: UserList): Unit = ???
-
     override def onDirectMessage(directMessage: DirectMessage): Unit = ???
-
     override def onUnblock(source: User, unblockedUser: User): Unit = ???
-
     override def onUserListUpdate(listOwner: User, list: UserList): Unit = ???
-
     override def onUnfollow(source: User, unfollowedUser: User): Unit = ???
-
     override def onUserProfileUpdate(updatedUser: User): Unit = ???
-
     override def onUserListMemberDeletion(deletedMember: User, listOwner: User, list: UserList): Unit = ???
-
     override def onUserDeletion(deletedUser: Long): Unit = ???
-
     override def onDeletionNotice(directMessageId: Long, userId: Long): Unit = ???
-
     override def onFavorite(source: User, target: User, favoritedStatus: Status): Unit = ???
-
     override def onUnfavorite(source: User, target: User, unfavoritedStatus: Status): Unit = ???
-
     override def onUserSuspension(suspendedUser: Long): Unit = ???
-
     override def onUserListDeletion(listOwner: User, list: UserList): Unit = ???
-
     override def onUserListCreation(listOwner: User, list: UserList): Unit = ???
-
     override def onStallWarning(warning: StallWarning): Unit = ???
-
     override def onDeletionNotice(statusDeletionNotice: StatusDeletionNotice): Unit = ???
-
     override def onScrubGeo(userId: Long, upToStatusId: Long): Unit = ???
-
     override def onStatus(status: Status): Unit = ???
-
     override def onTrackLimitationNotice(numberOfLimitedStatuses: Int): Unit = ???
-
     override def onException(ex: Exception): Unit = ()
-
   }
-
-
-//  class NotificationListener(
-//                              userId: Long,
-//                              screenName: String,
-//                              responder: Responder,
-//                              twitter: Twitter) extends UserStreamListener {
-//
-//    override def onFollow(source: User, followedUser: User): Unit = {
-//
-//    }
-//
-//    override def onUnfollow(source : User, unfollowedUser: User) = ()
-//    override def onBlock(source: User, blockedUser: User) = ()
-//    override def onDeletionNotice(directMessageId: Long, userId: Long) = ()
-//    override def onDeletionNotice(statusDeletionNotice: StatusDeletionNotice) = ()
-//    override def onDirectMessage(directMessage: DirectMessage) = ()
-//    override def onException(ex: Exception) = ()
-//    override def onFavorite(source: User, target: User, favoritedStatus: Status) = ()
-//    override def onFriendList(friendIds: Array[Long]) = ()
-//    override def onScrubGeo(userId: Long, upToStatusId: Long) = ()
-//    override def onStallWarning(warning: StallWarning) = ()
-//    override def onTrackLimitationNotice(numberOfLimitedStatuses: Int) = ()
-//    override def onUnblock(source: User, unblockedUser: User) = ()
-//    override def onUnfavorite(source: User, target: User, unfavoritedStatus: Status) = ()
-//    override def onUserListCreation(listOwner: User, list: UserList) = ()
-//    override def onUserListDeletion(listOwner: User, list: UserList) = ()
-//    override def onUserListMemberAddition(addedMember: User, listOwner: User, list: UserList) = ()
-//    override def onUserListMemberDeletion(deletedMember: User, listOwner: User, list: UserList) = ()
-//    override def onUserListSubscription(subscriber: User, listOwner: User, list: UserList) = ()
-//    override def onUserListUnsubscription(subscriber: User, listOwner: User, list: UserList) = ()
-//    override def onUserListUpdate(listOwner: User, list: UserList) = ()
-//    override def onUserProfileUpdate(updatedUser: User) = ()
-//  }
-
-  //val notificationListener = new NotifcationListener(3153362684L, "Ada", null, twitter)
-
 
   val getFollowers: IDs = twitter.getFollowersIDs(3153362684L, -1)
   val getFriends: IDs = twitter.getFriendsIDs(3153362684L, -1)
@@ -129,7 +70,7 @@ object Main extends App {
   val toUnfollow: Set[Long] = toUnFollowIDs
   toUnfollow.foreach { friend => twitter.destroyFriendship(friend) }
 
-  stream.addListener(userStreamListener.onFollow())
+  stream.addListener(userStreamListener)
   //stream.user()
   Thread.sleep(6000)
   stream.cleanUp()
