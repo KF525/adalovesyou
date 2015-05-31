@@ -1,10 +1,14 @@
-import twitter4j.{User, UserStreamAdapter}
+import twitter4j.{Twitter, User, UserStreamAdapter}
 
 
-class LovesYouListener extends UserStreamAdapter {
-  override def onFollow(source: User, followedUser: User) = {
-    if (followedUser.getId == 3153362684L) {
-      println(source.toString)
+class LovesYouListener(twitter: Twitter) extends UserStreamAdapter {
+
+
+  override def onFollow(follower: User, followee: User) = {
+    if (followee.getId == 3153362684L) {
+      twitter.createFriendship(follower.getId)
     }
   }
+
+  override def onException(ex: Exception) = ex.printStackTrace()
 }
