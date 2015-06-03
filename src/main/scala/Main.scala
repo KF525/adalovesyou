@@ -1,9 +1,19 @@
+import com.typesafe.config.ConfigFactory
 import twitter4j._
 import twitter4j.conf.ConfigurationBuilder
-import com.typesafe.config.{ConfigFactory, Config}
 
 
 object Main extends App {
+
+  //  curl --get 'https://userstream.twitter.com/1.1/user.json'
+  // --header 'Authorization: OAuth oauth_consumer_key="YcxG5hGeIbWERFnIjCK8perkf",
+  // oauth_nonce="e9f98ba5e414c83951f96394c3b91ed0",
+  // oauth_signature="DWJQAN%2F8VYgB09YQQfGpK83Pqyo%3D",
+  // oauth_signature_method="HMAC-SHA1",
+  // oauth_timestamp="1433086224",
+  // oauth_token="3153362684-oYZw6vLkyrOblMIXgJqyB0lERhxYiFaLclAoNJK", oauth_version="1.0"' --verbose
+
+  println("hi there")
 
   val twitterConfig = new TwitterConfig(ConfigFactory.load)
 
@@ -13,7 +23,6 @@ object Main extends App {
     .setOAuthConsumerSecret(twitterConfig.consumerSecret)
     .setOAuthAccessToken(twitterConfig.accessToken)
     .setOAuthAccessTokenSecret(twitterConfig.accessTokenSecret)
-    .build()
 
   val twitter = new TwitterFactory(config).getInstance
   val stream = new TwitterStreamFactory(config).getInstance
@@ -70,33 +79,15 @@ object Main extends App {
   val toUnfollow: Set[Long] = toUnFollowIDs
   toUnfollow.foreach { friend => twitter.destroyFriendship(friend) }
 
-  stream.addListener(userStreamListener)
+  //stream.addListener(userStreamListener)
   //stream.user()
-  Thread.sleep(6000)
-  stream.cleanUp()
-  stream.shutdown()
+  //Thread.sleep(6000)
+  //stream.cleanUp()
+  //stream.shutdown()
 
-  //  private val timeline: ResponseList[Status] = twitter.getHomeTimeline
-  //  private val myMentions = twitter.getMentionsTimeline
-  //  twitter.updateStatus("Ada loves you!")
-  //  Console.println("Hello World: " + timeline.toString + myMentions.toString )
+  stream.addListener(new LovesYouListener(twitter))
+  stream.user()
 
 }
-
-
-//val status: ResponseList[Status] = twitter.getMentionsTimeline
-
-
-
-
-  //TO DO:
-  //Create a usernotification listener which listens to new follow events.
-  //listen to twitter (all of twitter or just account's followers/or people who follow account?)
-  //listen for specific phrases or hashtag (what should this/these be)
-  //respond to users who use those specific phrases/hashtag
-  //try to specify type of tweet to send out??
-  //create a collection of tweets to select from and tweet to user
-
-
 
 
