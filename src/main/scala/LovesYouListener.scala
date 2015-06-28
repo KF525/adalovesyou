@@ -13,6 +13,7 @@ class LovesYouListener(twitter: Twitter) extends UserStreamAdapter {
   }
 
   override def onStatus(status: Status) = {
+    println("status" + status)
     for (mention <- status.getUserMentionEntities) {
       lazy val relationship: Relationship = twitter.showFriendship(status.getUser.getScreenName, "_AdaLovesYou")
       if (mention.getId == 3153362684L && relationship.isTargetFollowedBySource) {
