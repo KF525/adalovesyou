@@ -1,7 +1,3 @@
-import NativePackagerKeys._
-
-packageArchetype.java_application
-
 name := "twibot"
 
 version := "1.0"
