@@ -7,13 +7,13 @@ class LovesYouListener(twitter: Twitter) extends UserStreamAdapter {
   //TODO: Add delta for cleaning up friends
   override def onFollow(follower: User, followee: User) = {
     if (followee.getId == 3153362684L) {
-      println("following " + follower.getScreenName)
+      System.out.println("following " + follower.getScreenName)
       twitter.createFriendship(follower.getId)
     }
   }
 
   override def onStatus(status: Status) = {
-    println("status" + status)
+    System.out.println("status" + status)
     for (mention <- status.getUserMentionEntities) {
       lazy val relationship: Relationship = twitter.showFriendship(status.getUser.getScreenName, "_AdaLovesYou")
       if (mention.getId == 3153362684L && relationship.isTargetFollowedBySource) {
