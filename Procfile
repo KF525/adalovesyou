@@ -1,1 +1,1 @@
-worker: sbt run
+web: target/universal/stage/bin/twibot
