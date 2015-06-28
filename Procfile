@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/twibot
+worker: target/universal/stage/bin/twibot
