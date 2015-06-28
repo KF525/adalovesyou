@@ -1,9 +1,9 @@
 import com.typesafe.config.Config
 
 class TwitterConfig(config: Config) {
-  val consumerKey = config.getString("consumerKey")
-  val consumerSecret = config.getString("consumerSecret")
-  val accessToken = config.getString("accessToken")
-  val accessTokenSecret = config.getString("accessTokenSecret")
+  val consumerKey = System.getenv("CONSUMER_KEY") //config.getString("consumerKey")
+  val consumerSecret = System.getenv("CONSUMER_SECRET") //config.getString("consumerSecret")
+  val accessToken = System.getenv("ACCESS_TOKEN") //config.getString("accessToken")
+  val accessTokenSecret = System.getenv("ACCESS_TOKEN_SECRET") //config.getString("accessTokenSecret")
 
 }
