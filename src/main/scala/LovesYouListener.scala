@@ -4,16 +4,18 @@ import scala.util.Random
 
 class LovesYouListener(twitter: Twitter) extends UserStreamAdapter {
 
-  //TODO: Add delta for cleaning up friends: this seems to be working???
   override def onFollow(follower: User, followee: User) = {
     if (followee.getId == 3153362684L) {
-      System.out.println("following " + follower.getScreenName)
+      println("following " + follower.getScreenName)
       twitter.createFriendship(follower.getId)
     }
   }
 
   override def onStatus(status: Status) = {
-    System.out.println("status" + status)
+    println(
+      "status id:" + status.getId +
+      "status text:" + status.getText +
+      "user mention entities:" + status.getUserMentionEntities)
     for (mention <- status.getUserMentionEntities) {
       lazy val relationship: Relationship = twitter.showFriendship(status.getUser.getScreenName, "_AdaLovesYou")
       if (mention.getId == 3153362684L && relationship.isTargetFollowedBySource) {
