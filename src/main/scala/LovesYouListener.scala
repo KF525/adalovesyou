@@ -4,7 +4,7 @@ import scala.util.Random
 
 class LovesYouListener(twitter: Twitter) extends UserStreamAdapter {
 
-  //TODO: Add delta for cleaning up friends
+  //TODO: Add delta for cleaning up friends: this seems to be working???
   override def onFollow(follower: User, followee: User) = {
     if (followee.getId == 3153362684L) {
       System.out.println("following " + follower.getScreenName)
