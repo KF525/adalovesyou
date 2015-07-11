@@ -18,7 +18,7 @@ object Main extends App {
   val twitter = new TwitterFactory(config).getInstance
   val stream = new TwitterStreamFactory(config).getInstance
 
-  stream.addListener(new LovesYouListener(twitter))
+  stream.addListener(new AdaListener(twitter))
   stream.user()
   println("Now listening to twitter...")
 

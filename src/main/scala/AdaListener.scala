@@ -2,20 +2,16 @@ import twitter4j._
 import scala.util.Random
 
 
-class LovesYouListener(twitter: Twitter) extends UserStreamAdapter {
+class AdaListener(twitter: Twitter) extends UserStreamAdapter {
 
   override def onFollow(follower: User, followee: User) = {
     if (followee.getId == 3153362684L) {
-      println("following " + follower.getScreenName)
       twitter.createFriendship(follower.getId)
     }
+    println("following " + follower.getScreenName)
   }
 
   override def onStatus(status: Status) = {
-    println(
-      "status id:" + status.getId +
-      "status text:" + status.getText +
-      "user mention entities:" + status.getUserMentionEntities)
     for (mention <- status.getUserMentionEntities) {
       lazy val relationship: Relationship = twitter.showFriendship(status.getUser.getScreenName, "_AdaLovesYou")
       if (mention.getId == 3153362684L && relationship.isTargetFollowedBySource) {
@@ -24,6 +20,7 @@ class LovesYouListener(twitter: Twitter) extends UserStreamAdapter {
         twitter.updateStatus(tweet)
       }
     }
+    println("status id:" + status.getId + " status text:" + status.getText + " user mention entities:" + status.getUserMentionEntities)
   }
 
   def getRandomTweet: String = {
