@@ -21,7 +21,7 @@ object Main extends App {
   stream.addListener(new AdaListener(twitter))
   stream.user()
   println("Now listening to twitter...")
-
 }
 
 
+// Natural Language APIs http://blog.mashape.com/list-of-25-natural-language-processing-apis/
