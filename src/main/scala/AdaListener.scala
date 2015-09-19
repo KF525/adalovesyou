@@ -15,7 +15,7 @@ class AdaListener(twitter: Twitter) extends UserStreamAdapter {
     for (mention <- status.getUserMentionEntities) {
       lazy val relationship: Relationship = twitter.showFriendship(status.getUser.getScreenName, "_AdaLovesYou")
       if (mention.getId == 3153362684L && relationship.isTargetFollowedBySource) {
-        val tweet = new StatusUpdate("@" + status.getUser.getScreenName + getRandomTweet)
+        val tweet = new StatusUpdate("@" + status.getUser.getScreenName + ' ' + getRandomTweet)
         tweet.setInReplyToStatusId(status.getId)
         twitter.updateStatus(tweet)
       }
