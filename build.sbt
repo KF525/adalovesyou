@@ -16,10 +16,6 @@ libraryDependencies ++= Seq(
   "org.postgresql" % "postgresql" % "9.4-1203-jdbc42"
 )
 
-libraryDependencies ++= Seq(
-  "com.h2database" % "h2" % "1.3.174"
-)
-
 Seq(flywaySettings: _*)
 
 flywayUrl := scala.util.Properties.envOrElse("DATABASE_URL", "jdbc:postgresql://localhost:5432/twibot")
