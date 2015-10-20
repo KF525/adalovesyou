@@ -16,10 +16,17 @@ object Main extends App {
     .build()
 
   val twitter = new TwitterFactory(config).getInstance
-  val stream = new TwitterStreamFactory(config).getInstance
+  val userStream = new TwitterStreamFactory(config).getInstance
+  val statusStream = new TwitterStreamFactory(config).getInstance
+  val searchTerms: Array[String] = Array("wow")
+  val query = new FilterQuery language Array("en") track searchTerms
+  val store = new TweetStore 
+  statusStream.addListener(store)
+  statusStream.filter(query)
+  println("Now listening for statuses...")
 
-  stream.addListener(new AdaListener(twitter))
-  stream.user()
+  userStream.addListener(new AdaListener(twitter))
+  userStream.user()
   println("Now listening to twitter...")
 }
 
