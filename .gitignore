@@ -7,3 +7,4 @@ target/
 .env
 out
 /src/main/resources/local.conf
+*~
